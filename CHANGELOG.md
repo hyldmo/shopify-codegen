@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/hyldmo/shopify-codegen/compare/v1.3.0...v1.3.1) (2026-01-06)
+
+
+### Bug Fixes
+
+* prevent double names ([f42b9f8](https://github.com/hyldmo/shopify-codegen/commit/f42b9f8a13ba2f777cb63b66a44e44dca8103c0e))
+
 # [1.3.0](https://github.com/hyldmo/shopify-codegen/compare/v1.2.0...v1.3.0) (2026-01-06)
 
 
