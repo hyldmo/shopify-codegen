@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/hyldmo/shopify-codegen/compare/v1.0.1...v1.1.0) (2026-01-06)
+
+
+### Features
+
+* added output flag ([fa7a894](https://github.com/hyldmo/shopify-codegen/commit/fa7a894887f5f240409868162dfd1d01a4e78b0d))
+
 ## [1.0.1](https://github.com/hyldmo/shopify-codegen/compare/v1.0.0...v1.0.1) (2026-01-06)
 
 
