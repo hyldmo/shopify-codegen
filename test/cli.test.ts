@@ -154,3 +154,48 @@ test('CLI writes CSS output to file', async () => {
 		}
 	}
 })
+
+test('CLI generates types without prefix by default', async () => {
+	const result = await runCLI(['liquid', '--dir', './test/data'])
+
+	assert.strictEqual(result.code, 0)
+	assert(result.stdout.includes('export interface CustomContent extends ShopifySection'))
+	assert(result.stdout.includes('export interface CustomContentText extends Block'))
+	assert(result.stdout.includes('export interface CustomContentImage extends Block'))
+	assert(result.stdout.includes('export type ShopifySections = Array<\n\tCustomContent'))
+	assert(!result.stdout.includes('CustomContentSection'))
+	assert(!result.stdout.includes('CustomContentTextBlock'))
+})
+
+test('CLI generates types with prefix when --prefix flag is set', async () => {
+	const result = await runCLI(['liquid', '--dir', './test/data', '--prefix'])
+
+	assert.strictEqual(result.code, 0)
+	assert(result.stdout.includes('export interface CustomContentSection extends ShopifySection'))
+	assert(result.stdout.includes('export interface CustomContentTextBlock extends Block'))
+	assert(result.stdout.includes('export interface CustomContentImageBlock extends Block'))
+	assert(result.stdout.includes('export type ShopifySections = Array<\n\tCustomContentSection'))
+	assert(!result.stdout.includes('export interface CustomContent extends ShopifySection'))
+	assert(!result.stdout.includes('export interface CustomContentText extends Block'))
+})
+
+test('CLI writes prefixed types to file', async () => {
+	const outputPath = join(process.cwd(), 'test-output-prefix.ts')
+
+	try {
+		const result = await runCLI(['liquid', '--dir', './test/data', '--prefix', '--output', outputPath])
+
+		assert.strictEqual(result.code, 0)
+
+		const fileContent = await readFile(outputPath, 'utf-8')
+		assert(fileContent.includes('export interface CustomContentSection extends ShopifySection'))
+		assert(fileContent.includes('export interface CustomContentTextBlock extends Block'))
+		assert(fileContent.includes('export type ShopifySections = Array<\n\tCustomContentSection'))
+	} finally {
+		try {
+			await unlink(outputPath)
+		} catch {
+			// Ignore cleanup errors
+		}
+	}
+})

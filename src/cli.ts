@@ -10,7 +10,7 @@ import { generateTypes } from './liquid/index.js'
 const codegens: Record<string, (options: typeof cli.flags) => Promise<string>> = {
 	liquid: options => {
 		const sectionsDir = resolve(process.cwd(), options.dir)
-		return generateTypes({ sectionsDir })
+		return generateTypes({ sectionsDir, prefix: options.prefix ?? false })
 	},
 	css: options => {
 		const configPath = resolve(process.cwd(), options.configPath)
@@ -31,6 +31,7 @@ const cli = meow({
 		  --output, -o        Output file path (if not provided, outputs to stdout)
 		  --lang              CSS language: less or scss (css only)  [default: scss]
 		  --config-path       Path to settings_data.json (css only)  [default: config/settings_data.json]
+		  --prefix            Add "Section" and "Block" suffix to type names (liquid only)  [default: false]
 
 		Examples
 		  $ shopify-codegen liquid
@@ -60,11 +61,15 @@ const cli = meow({
 			default: 'scss',
 			choices: ['less', 'scss']
 		},
+		prefix: {
+			type: 'boolean',
+			default: false
+		},
 		configPath: {
 			type: 'string',
 			default: 'config/settings_data.json'
 		}
-	} as const satisfies Record<string, Flag<FlagType, string, string>>
+	} as const satisfies Record<string, Flag<FlagType, string | boolean, string>>
 })
 
 async function main() {

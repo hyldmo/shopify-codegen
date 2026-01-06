@@ -32,18 +32,19 @@ export function generateSettingsType(settings: ShopifyBlock['settings'] | undefi
 	return props.join('\n')
 }
 
-export function generateBlockType(block: ShopifyBlock, sectionName: string): string {
+export function generateBlockType(block: ShopifyBlock, sectionName: string, prefix = false): string {
 	const sectionNamePascal = toPascalCase(sectionName)
 
 	if (block.type === '@app') {
-		return `export interface ${sectionNamePascal}App extends Block {
+		const appName = prefix ? `${sectionNamePascal}AppBlock` : `${sectionNamePascal}App`
+		return `export interface ${appName} extends Block {
 \ttype: '@app'
 \tsettings: BlockSettings
 }`
 	}
 
 	const blockTypePascal = toPascalCase(block.type)
-	const blockName = `${sectionNamePascal}${blockTypePascal}`
+	const blockName = prefix ? `${sectionNamePascal}${blockTypePascal}Block` : `${sectionNamePascal}${blockTypePascal}`
 	const settingsType = generateSettingsType(block.settings, '\t\t')
 
 	return `export interface ${blockName} extends Block {
@@ -54,17 +55,18 @@ ${settingsType}
 }`
 }
 
-export function generateSectionType(schema: ShopifySchema, fileName: string): string {
-	const interfaceName = toPascalCase(fileName.replace(/\.liquid$/, ''))
+export function generateSectionType(schema: ShopifySchema, fileName: string, prefix = false): string {
+	const baseName = toPascalCase(fileName.replace(/\.liquid$/, ''))
+	const interfaceName = prefix ? `${baseName}Section` : baseName
 	const settingsType = generateSettingsType(schema.settings, '\t\t')
 
 	let blocksType = 'Block[]'
 	if (schema.blocks && schema.blocks.length > 0) {
 		const blockTypes = schema.blocks.map(block => {
 			if (block.type === '@app') {
-				return `${interfaceName}App`
+				return prefix ? `${baseName}AppBlock` : `${baseName}App`
 			}
-			return `${interfaceName}${toPascalCase(block.type)}`
+			return prefix ? `${baseName}${toPascalCase(block.type)}Block` : `${baseName}${toPascalCase(block.type)}`
 		})
 		blocksType = blockTypes.length > 1 ? `Array<${blockTypes.join(' | ')}>` : `${blockTypes[0]}[]`
 	}
@@ -81,15 +83,15 @@ ${settingsType}
 }`
 }
 
-export function generateBlockTypes(schema: ShopifySchema, fileName: string): string[] {
+export function generateBlockTypes(schema: ShopifySchema, fileName: string, prefix = false): string[] {
 	if (!schema.blocks) return []
 
 	const sectionName = toPascalCase(fileName.replace(/\.liquid$/, ''))
-	return schema.blocks.map(block => generateBlockType(block, sectionName))
+	return schema.blocks.map(block => generateBlockType(block, sectionName, prefix))
 }
 
-export async function generateTypes(options: { sectionsDir: string }): Promise<string> {
-	const { sectionsDir } = options
+export async function generateTypes(options: { sectionsDir: string; prefix?: boolean }): Promise<string> {
+	const { sectionsDir, prefix = false } = options
 	const dir = await readdir(sectionsDir)
 	const files = dir.filter(file => file.endsWith('.liquid'))
 
@@ -110,26 +112,29 @@ export async function generateTypes(options: { sectionsDir: string }): Promise<s
 				}
 			}
 
-			const interfaceName = toPascalCase(file.replace(/\.liquid$/, ''))
+			const baseName = toPascalCase(file.replace(/\.liquid$/, ''))
+			const interfaceName = prefix ? `${baseName}Section` : baseName
 
 			if (schema.blocks && Array.isArray(schema.blocks)) {
 				for (const block of schema.blocks) {
 					let blockTypeName: string
 					if (block.type === '@app') {
-						blockTypeName = `${interfaceName}App`
+						blockTypeName = prefix ? `${baseName}AppBlock` : `${baseName}App`
 					} else {
 						if (!(block.settings && Array.isArray(block.settings))) continue
-						blockTypeName = `${interfaceName}${toPascalCase(block.type)}`
+						blockTypeName = prefix
+							? `${baseName}${toPascalCase(block.type)}Block`
+							: `${baseName}${toPascalCase(block.type)}`
 					}
 					if (!allBlockTypes.has(blockTypeName)) {
-						allBlockTypes.set(blockTypeName, generateBlockType(block, interfaceName))
+						allBlockTypes.set(blockTypeName, generateBlockType(block, baseName, prefix))
 					}
 				}
 			}
 			return {
 				schema,
-				sectionType: generateSectionType(schema, file),
-				blockTypes: generateBlockTypes(schema, file),
+				sectionType: generateSectionType(schema, file, prefix),
+				blockTypes: generateBlockTypes(schema, file, prefix),
 				fileName: file,
 				interfaceName
 			}
