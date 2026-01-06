@@ -28,6 +28,7 @@ jobs:
       - run: yarn --immutable
       - run: yarn biome ci
       - run: yarn build
+      - run: yarn test
 
   release:
     needs: build-and-test

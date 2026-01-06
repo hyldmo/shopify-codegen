@@ -12,7 +12,9 @@
 		"fix": "biome check --fix --unsafe .",
 		"lint": "biome check .",
 		"lint:tsc": "tsc --noEmit",
-		"format": "biome format --write ."
+		"format": "biome format --write .",
+		"test": "tsx --test test/cli.test.ts",
+		"test:watch": "tsx --test --watch test/cli.test.ts"
 	},
 	"dependencies": {
 		"meow": "^14.0.0",
@@ -29,6 +31,7 @@
 		"@types/react": "*",
 		"semantic-release": "^25.0.2",
 		"tsup": "^8.5.1",
+		"tsx": "^4.21.0",
 		"typescript": "^5.7.2"
 	},
 	"packageManager": "yarn@4.12.0",
