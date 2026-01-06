@@ -1,2 +1,2 @@
-export type { GenerateOptions } from './liquid'
-export { generateTypes } from './liquid'
+export type { GenerateOptions } from './liquid/index.js'
+export { generateTypes } from './liquid/index.js'

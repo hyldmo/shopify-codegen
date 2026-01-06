@@ -8,15 +8,11 @@
 		"bin"
 	],
 	"scripts": {
-		"build": "zshy",
+		"build": "tsup",
 		"fix": "biome check --fix --unsafe .",
 		"lint": "biome check .",
 		"lint:tsc": "tsc --noEmit",
 		"format": "biome format --write ."
-	},
-	"zshy": {
-		"exports": "./src/index.ts",
-		"bin": "./src/cli.ts"
 	},
 	"dependencies": {
 		"meow": "^14.0.0",
@@ -28,8 +24,8 @@
 		"@semantic-release/git": "^10.0.1",
 		"@types/node": "^22.10.0",
 		"semantic-release": "^25.0.2",
-		"typescript": "^5.7.2",
-		"zshy": "^0.7.0"
+		"tsup": "^8.5.1",
+		"typescript": "^5.7.2"
 	},
 	"packageManager": "yarn@4.12.0",
 	"repository": {
@@ -46,13 +42,13 @@
 	],
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",
-	"types": "./dist/index.d.cts",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.cts",
+			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js",
 			"require": "./dist/index.cjs"
 		}
 	},
-	"bin": "./dist/cli.cjs"
+	"bin": "./dist/cli.js"
 }

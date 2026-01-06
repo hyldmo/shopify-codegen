@@ -2,7 +2,7 @@
 import { resolve } from 'node:path'
 import meow from 'meow'
 import pc from 'picocolors'
-import { generateTypes } from './liquid'
+import { generateTypes } from './liquid/index.js'
 
 type CodegenFunction = (options: { sectionsDir: string }) => Promise<string>
 
@@ -31,7 +31,7 @@ const cli = meow(
 		flags: {
 			dir: {
 				type: 'string',
-				alias: 'd',
+				shortFlag: 'd',
 				default: 'sections'
 			}
 		}
