@@ -21,6 +21,11 @@ export function toPascalCase(str: string): string {
 		.replace(/\s/g, '')
 }
 
+export function deduplicateSuffix(name: string, suffix: string): string {
+	const doubleSuffix = `${suffix}${suffix}`
+	return name.replace(doubleSuffix, suffix)
+}
+
 export function getTypeScriptType(setting: ShopifySetting): string {
 	switch (setting.type) {
 		case 'text':

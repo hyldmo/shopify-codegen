@@ -48,8 +48,8 @@ export interface SectionResult {
 	fileName: string
 	schema: ShopifySchema | null
 	sectionType: string
-	blockTypes: string[]
 	interfaceName: string
+	blockTypes: string[]
 }
 
 /**
