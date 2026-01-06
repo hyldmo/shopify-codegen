@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/hyldmo/shopify-codegen/compare/v1.2.0...v1.3.0) (2026-01-06)
+
+
+### Features
+
+* add prefix flag ([a700d85](https://github.com/hyldmo/shopify-codegen/commit/a700d85fd0b607057735f621e76a7870d4b34a82))
+
 # [1.2.0](https://github.com/hyldmo/shopify-codegen/compare/v1.1.2...v1.2.0) (2026-01-06)
 
 
