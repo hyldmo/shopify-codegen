@@ -47,7 +47,7 @@ export function generateBlockType(block: ShopifyBlock, sectionName: string, pref
 	const blockName = prefix ? `${sectionNamePascal}${blockTypePascal}Block` : `${sectionNamePascal}${blockTypePascal}`
 	const settingsType = generateSettingsType(block.settings, '\t\t')
 
-	return `export interface ${blockName} extends Block {
+	return `export interface ${blockName.replace('BlockBlock', 'Block')} extends Block {
 \ttype: '${block.type}'
 \tsettings: {
 ${settingsType}
@@ -57,7 +57,7 @@ ${settingsType}
 
 export function generateSectionType(schema: ShopifySchema, fileName: string, prefix = false): string {
 	const baseName = toPascalCase(fileName.replace(/\.liquid$/, ''))
-	const interfaceName = prefix ? `${baseName}Section` : baseName
+	const interfaceName = (prefix ? `${baseName}Section` : baseName).replace('SectionSection', 'Section')
 	const settingsType = generateSettingsType(schema.settings, '\t\t')
 
 	let blocksType = 'Block[]'
@@ -152,8 +152,8 @@ export async function generateTypes(options: { sectionsDir: string; prefix?: boo
 import type {
 	Block,
 	BlockSettings,
-	ShopifyRichText,
 	Settings,
+	ShopifyRichText,
 	ShopifySection
 } from 'shopify-codegen'
 
