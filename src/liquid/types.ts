@@ -44,10 +44,6 @@ export interface ShopifySchema {
 	presets?: unknown[]
 }
 
-export interface GenerateOptions {
-	sectionsDir: string
-}
-
 export interface SectionResult {
 	fileName: string
 	schema: ShopifySchema | null

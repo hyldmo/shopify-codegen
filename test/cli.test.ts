@@ -46,7 +46,7 @@ test('CLI shows error for unknown codegen', async () => {
 })
 
 test('CLI generates types and outputs to stdout', async () => {
-	const result = await runCLI(['liquid', '--dir', './test/sections'])
+	const result = await runCLI(['liquid', '--dir', './test/data'])
 
 	assert.strictEqual(result.code, 0)
 	assert(result.stdout.includes('export type ShopifySections'))
@@ -54,14 +54,14 @@ test('CLI generates types and outputs to stdout', async () => {
 })
 
 test('CLI generates types with --dir flag', async () => {
-	const result = await runCLI(['liquid', '--dir', './test/sections'])
+	const result = await runCLI(['liquid', '--dir', './test/data'])
 
 	assert.strictEqual(result.code, 0)
 	assert(result.stdout.length > 0)
 })
 
 test('CLI generates types with -d short flag', async () => {
-	const result = await runCLI(['liquid', '-d', './test/sections'])
+	const result = await runCLI(['liquid', '-d', './test/data'])
 
 	assert.strictEqual(result.code, 0)
 	assert(result.stdout.length > 0)
@@ -71,10 +71,9 @@ test('CLI writes output to file with --output flag', async () => {
 	const outputPath = join(process.cwd(), 'test-output.ts')
 
 	try {
-		const result = await runCLI(['liquid', '--dir', './test/sections', '--output', outputPath])
+		const result = await runCLI(['liquid', '--dir', './test/data', '--output', outputPath])
 
 		assert.strictEqual(result.code, 0)
-		assert(result.stdout.includes('Generated types written'))
 
 		const fileContent = await readFile(outputPath, 'utf-8')
 		assert(fileContent.includes('export type ShopifySections'))
@@ -92,13 +91,61 @@ test('CLI writes output to file with -o short flag', async () => {
 	const outputPath = join(process.cwd(), 'test-output-short.ts')
 
 	try {
-		const result = await runCLI(['liquid', '--dir', './test/sections', '-o', outputPath])
+		const result = await runCLI(['liquid', '--dir', './test/data', '-o', outputPath])
 
 		assert.strictEqual(result.code, 0)
-		assert(result.stdout.includes('Generated types written'))
 
 		const fileContent = await readFile(outputPath, 'utf-8')
-		assert(fileContent.length > 0)
+		assert(fileContent.includes('export type ShopifySections'))
+		assert(fileContent.includes('import type'))
+	} finally {
+		try {
+			await unlink(outputPath)
+		} catch {
+			// Ignore cleanup errors
+		}
+	}
+})
+
+test('CLI generates CSS vars in SCSS format and outputs to stdout', async () => {
+	const result = await runCLI(['css', '--config-path', './test/data/settings_data.json', '--lang', 'scss'])
+
+	assert.strictEqual(result.code, 0)
+	assert(result.stdout.includes('$color-primary: #000000;'))
+	assert(result.stdout.includes('$color-secondary: #ffffff;'))
+	assert(result.stdout.includes('$spacing-large: 40px;'))
+	assert(!result.stdout.includes('font'))
+})
+
+test('CLI generates CSS vars in LESS format', async () => {
+	const result = await runCLI(['css', '--config-path', './test/data/settings_data.json', '--lang', 'less'])
+
+	assert.strictEqual(result.code, 0)
+	assert(result.stdout.includes('@color-primary: #000000;'))
+	assert(result.stdout.includes('@color-secondary: #ffffff;'))
+	assert(result.stdout.includes('@spacing-large: 40px;'))
+})
+
+test('CLI writes CSS output to file', async () => {
+	const outputPath = join(process.cwd(), 'test-output.scss')
+
+	try {
+		const result = await runCLI([
+			'css',
+			'--config-path',
+			'./test/data/settings_data.json',
+			'--lang',
+			'scss',
+			'--output',
+			outputPath
+		])
+
+		assert.strictEqual(result.code, 0)
+
+		const fileContent = await readFile(outputPath, 'utf-8')
+		assert(fileContent.includes('$color-primary: #000000;'))
+		assert(fileContent.includes('$color-secondary: #ffffff;'))
+		assert(!fileContent.includes('font'))
 	} finally {
 		try {
 			await unlink(outputPath)

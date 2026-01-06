@@ -1,0 +1,13 @@
+{
+	"current": {
+		"color_primary": "#000000",
+		"color_secondary": "#ffffff",
+		"spacing_large": "40px",
+		"spacing_small": "10px",
+		"font_body": "Arial, sans-serif",
+		"font_heading": "Helvetica, sans-serif",
+		"image_logo": "https://example.com/logo.png",
+		"empty_setting": ""
+	},
+	"presets": {}
+}

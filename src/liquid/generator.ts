@@ -1,6 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import type { GenerateOptions, SectionResult, ShopifyBlock, ShopifySchema } from './types.js'
+import type { SectionResult, ShopifyBlock, ShopifySchema } from './types.js'
 import { extractSchema, getTypeScriptType, toPascalCase } from './utils.js'
 
 export function generateSettingsType(settings: ShopifyBlock['settings'] | undefined, indent = '\t'): string {
@@ -88,7 +88,7 @@ export function generateBlockTypes(schema: ShopifySchema, fileName: string): str
 	return schema.blocks.map(block => generateBlockType(block, sectionName))
 }
 
-export async function generateTypes(options: GenerateOptions): Promise<string> {
+export async function generateTypes(options: { sectionsDir: string }): Promise<string> {
 	const { sectionsDir } = options
 	const dir = await readdir(sectionsDir)
 	const files = dir.filter(file => file.endsWith('.liquid'))
