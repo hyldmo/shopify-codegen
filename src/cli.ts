@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { generateTypes } from './codegens/liquid/index.js'
 
 type CodegenFunction = (options: { sectionsDir: string }) => Promise<string>

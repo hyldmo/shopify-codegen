@@ -9,9 +9,9 @@
 	],
 	"scripts": {
 		"build": "zshy",
+		"fix": "biome check --fix --unsafe .",
 		"lint": "biome check .",
 		"lint:tsc": "tsc --noEmit",
-		"lint:fix": "biome lint --fix --unsafe .",
 		"format": "biome format --write ."
 	},
 	"zshy": {
@@ -19,7 +19,7 @@
 		"bin": "./src/cli.ts"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.8",
+		"@biomejs/biome": "^2.3.11",
 		"@semantic-release/changelog": "^6.0.3",
 		"@semantic-release/git": "^10.0.1",
 		"@types/node": "^22.10.0",

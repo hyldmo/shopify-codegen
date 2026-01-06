@@ -1,10 +1,10 @@
-import { readdir, readFile } from 'fs/promises'
-import { join } from 'path'
+import { readdir, readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import type { GenerateOptions, SectionResult, ShopifyBlock, ShopifySchema } from './types.js'
 import { extractSchema, getTypeScriptType, toPascalCase } from './utils.js'
 
 export function generateSettingsType(settings: ShopifyBlock['settings'] | undefined, indent = '\t'): string {
-	if (!settings || !Array.isArray(settings)) return ''
+	if (!(settings && Array.isArray(settings))) return ''
 
 	const props: string[] = []
 
@@ -66,8 +66,7 @@ export function generateSectionType(schema: ShopifySchema, fileName: string): st
 			}
 			return `${interfaceName}${toPascalCase(block.type)}`
 		})
-		blocksType =
-			blockTypes.length > 1 ? `Array<${blockTypes.join(' | ')}>` : `${blockTypes[0]}[]`
+		blocksType = blockTypes.length > 1 ? `Array<${blockTypes.join(' | ')}>` : `${blockTypes[0]}[]`
 	}
 
 	const tag = schema.tag || 'section'
@@ -119,7 +118,7 @@ export async function generateTypes(options: GenerateOptions): Promise<string> {
 					if (block.type === '@app') {
 						blockTypeName = `${interfaceName}App`
 					} else {
-						if (!block.settings || !Array.isArray(block.settings)) continue
+						if (!(block.settings && Array.isArray(block.settings))) continue
 						blockTypeName = `${interfaceName}${toPascalCase(block.type)}`
 					}
 					if (!allBlockTypes.has(blockTypeName)) {
@@ -138,9 +137,7 @@ export async function generateTypes(options: GenerateOptions): Promise<string> {
 	)
 
 	const blockTypes = Array.from(allBlockTypes.values())
-	const sectionTypes = sections
-		.filter(section => section.schema !== null)
-		.map(({ sectionType }) => sectionType)
+	const sectionTypes = sections.filter(section => section.schema !== null).map(({ sectionType }) => sectionType)
 	const unionType = sections
 		.filter(section => section.schema !== null)
 		.map(({ interfaceName }) => interfaceName)
