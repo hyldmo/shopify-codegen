@@ -18,11 +18,15 @@
 		"meow": "^14.0.0",
 		"picocolors": "^1.1.1"
 	},
+	"peerDependencies": {
+		"@types/react": "*"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.11",
 		"@semantic-release/changelog": "^6.0.3",
 		"@semantic-release/git": "^10.0.1",
 		"@types/node": "^22.10.0",
+		"@types/react": "*",
 		"semantic-release": "^25.0.2",
 		"tsup": "^8.5.1",
 		"typescript": "^5.7.2"

@@ -14,7 +14,7 @@ export function generateSettingsType(settings: ShopifyBlock['settings'] | undefi
 
 		const propName = setting.id
 		const propType = getTypeScriptType(setting)
-		const hasDefault = setting.default !== undefined
+		const hasDefault = 'default' in setting && setting.default !== undefined
 		const isOptional =
 			hasDefault ||
 			setting.type === 'image_picker' ||
@@ -144,41 +144,19 @@ export async function generateTypes(options: GenerateOptions): Promise<string> {
 		.join('\n\t| ')
 
 	const output = `
-import type { HTMLAttributes } from 'react'
-
-/**
- * Needs to be used in {@link HTMLAttributes<HTMLElement>['dangerouslySetInnerHTML']}
- * instead of in the \`children\` prop
- * */
-export type RichText = NonNullable<HTMLAttributes<HTMLElement>['dangerouslySetInnerHTML']>['__html']
+import type {
+	Block,
+	BlockSettings,
+	ShopifyRichText,
+	Settings,
+	ShopifySection
+} from 'shopify-codegen'
 
 export type ShopifySections = Array<
 \t${unionType}
 >
 
-export interface ShopifySection {
-\tid: string
-\tname: string
-\ttag: string
-\t/** Usually {{ page_title }} */
-\ttitle: string
-\tsettings: Settings
-\tblocks: Block[]
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Settings {}
-
-export interface Block {
-\tid: string
-\ttype: string
-\tsettings: BlockSettings
-\t/** Used by Shopify's Theme Editor */
-\tattributes?: string
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface BlockSettings {}
+export type { Block, BlockSettings, ShopifyRichText, Settings, ShopifySection }
 
 ${sectionTypes.join('\n\n')}
 

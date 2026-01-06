@@ -33,7 +33,7 @@ export function getTypeScriptType(setting: ShopifySetting): string {
 		case 'image_picker':
 			return 'string'
 		case 'richtext':
-			return 'RichText'
+			return 'ShopifyRichText'
 		case 'color':
 			return 'string'
 		case 'checkbox':
