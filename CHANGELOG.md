@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/hyldmo/shopify-codegen/compare/v1.3.3...v1.3.4) (2026-01-06)
+
+
+### Bug Fixes
+
+* set some fields ([7e01544](https://github.com/hyldmo/shopify-codegen/commit/7e01544bce2214c07f919d4ad7cd355797d9bab1))
+
 ## [1.3.3](https://github.com/hyldmo/shopify-codegen/compare/v1.3.2...v1.3.3) (2026-01-06)
 
 
