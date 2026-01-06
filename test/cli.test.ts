@@ -179,6 +179,14 @@ test('CLI generates types with prefix when --prefix flag is set', async () => {
 	assert(!result.stdout.includes('export interface CustomContentText extends Block'))
 })
 
+test('CLI does not generate double Block names', async () => {
+	const result = await runCLI(['liquid', '--dir', './test/data', '--prefix'])
+
+	assert.strictEqual(result.code, 0)
+	assert(!result.stdout.includes('BlockBlock'))
+	assert(result.stdout.includes('export interface CustomContentContentBlock extends Block'))
+})
+
 test('CLI writes prefixed types to file', async () => {
 	const outputPath = join(process.cwd(), 'test-output-prefix.ts')
 
@@ -198,4 +206,39 @@ test('CLI writes prefixed types to file', async () => {
 			// Ignore cleanup errors
 		}
 	}
+})
+
+test('CLI generates settings with default values as required (not partial)', async () => {
+	const result = await runCLI(['liquid', '--dir', './test/data'])
+
+	assert.strictEqual(result.code, 0)
+
+	// Settings with default values should be required (not optional with ?)
+	// Currently this test fails because settings with defaults are incorrectly marked as optional
+	assert(
+		!result.stdout.includes('heading_text?: string'),
+		'heading_text with default should be required, not optional'
+	)
+	assert(result.stdout.includes('heading_text: string'), 'heading_text should exist as required')
+
+	assert(!result.stdout.includes('top_margin?: boolean'), 'top_margin with default should be required, not optional')
+	assert(result.stdout.includes('top_margin: boolean'), 'top_margin should exist as required')
+
+	assert(
+		!result.stdout.includes('bottom_margin?: boolean'),
+		'bottom_margin with default should be required, not optional'
+	)
+	assert(result.stdout.includes('bottom_margin: boolean'), 'bottom_margin should exist as required')
+
+	// Range settings with step properties and default values should also be required
+	// width is a range setting with step: 1 and default: 50
+	assert(
+		!result.stdout.includes('width?: number'),
+		'width (range with step) with default should be required, not optional'
+	)
+	assert(result.stdout.includes('width: number'), 'width should exist as required')
+
+	// Settings without default values should be optional
+	assert(result.stdout.includes('heading_color?: string'), 'heading_color without default should be optional')
+	assert(result.stdout.includes('background_color?: string'), 'background_color without default should be optional')
 })

@@ -29,14 +29,7 @@ export function generateSettingsType(settings: ShopifyBlock['settings'] | undefi
 		const propName = setting.id
 		const propType = getTypeScriptType(setting)
 		const hasDefault = 'default' in setting && setting.default !== undefined
-		const isOptional =
-			hasDefault ||
-			setting.type === 'image_picker' ||
-			setting.type === 'product' ||
-			setting.type === 'collection' ||
-			setting.type === 'page' ||
-			setting.type === 'video' ||
-			setting.type === 'video_url'
+		const isOptional = !hasDefault
 
 		if (propType) {
 			props.push(`${indent}${propName}${isOptional ? '?' : ''}: ${propType}`)
