@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/hyldmo/shopify-codegen/compare/v1.1.2...v1.2.0) (2026-01-06)
+
+
+### Features
+
+* add css codegen ([dbf6cc5](https://github.com/hyldmo/shopify-codegen/commit/dbf6cc5b050f00f0c803760473cab96d5bb3a458))
+
 ## [1.1.2](https://github.com/hyldmo/shopify-codegen/compare/v1.1.1...v1.1.2) (2026-01-06)
 
 
