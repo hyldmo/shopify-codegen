@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { writeFile } from 'node:fs/promises'
 import { relative, resolve } from 'node:path'
-import meow from 'meow'
+import meow, { type Flag, type FlagType } from 'meow'
 import pc from 'picocolors'
 import { generateTypes } from './liquid/index.js'
 
@@ -40,9 +40,9 @@ const cli = meow(
 			},
 			output: {
 				type: 'string',
-				alias: 'o'
+				shortFlag: 'o'
 			}
-		}
+		} satisfies Record<string, Flag<FlagType, string, string>>
 	}
 )
 
