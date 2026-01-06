@@ -64,7 +64,7 @@ export interface ShopifySection {
 	tag: string
 	title: string
 	settings: Settings
-	blocks: Block[]
+	blocks?: Block[]
 }
 
 // biome-ignore lint/suspicious/noEmptyInterface: Empty interface for extension

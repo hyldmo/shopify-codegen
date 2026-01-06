@@ -61,9 +61,10 @@ ${settingsType}
 export function generateSectionType(schema: ShopifySchema, interfaceName: string, blockTypeNames: string[]): string {
 	const settingsType = generateSettingsType(schema.settings, '\t\t')
 
-	let blocksType = 'Block[]'
+	let blocksProperty = ''
 	if (blockTypeNames.length > 0) {
-		blocksType = blockTypeNames.length > 1 ? `Array<${blockTypeNames.join(' | ')}>` : `${blockTypeNames[0]}[]`
+		const blocksType = blockTypeNames.length > 1 ? `Array<${blockTypeNames.join(' | ')}>` : `${blockTypeNames[0]}[]`
+		blocksProperty = `\tblocks: ${blocksType}`
 	}
 
 	const tag = schema.tag || 'section'
@@ -73,8 +74,7 @@ export function generateSectionType(schema: ShopifySchema, interfaceName: string
 \ttag: '${tag}'
 \tsettings: {
 ${settingsType}
-\t}
-\tblocks: ${blocksType}
+\t}${blocksProperty ? `\n${blocksProperty}` : ''}
 }`
 }
 
