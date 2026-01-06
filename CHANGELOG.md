@@ -1,3 +1,10 @@
+# 1.0.0 (2026-01-06)
+
+
+### Bug Fixes
+
+* setup ci ([2ab077b](https://github.com/hyldmo/shopify-codegen/commit/2ab077b44196102fb14f31db0d4a042500b61106))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
