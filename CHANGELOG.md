@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/hyldmo/shopify-codegen/compare/v1.3.2...v1.3.3) (2026-01-06)
+
+
+### Bug Fixes
+
+* values with defaults should not have optional type ([5c39340](https://github.com/hyldmo/shopify-codegen/commit/5c39340884a87e0eaffd4878ba61ebd8dc32640a))
+
 ## [1.3.2](https://github.com/hyldmo/shopify-codegen/compare/v1.3.1...v1.3.2) (2026-01-06)
 
 
