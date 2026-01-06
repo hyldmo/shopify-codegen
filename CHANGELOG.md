@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/hyldmo/shopify-codegen/compare/v1.3.4...v1.3.5) (2026-01-06)
+
+
+### Bug Fixes
+
+* don't add blocks on type without it ([e087b4d](https://github.com/hyldmo/shopify-codegen/commit/e087b4d387a739af1eb7343fc86878380bcf938e))
+
 ## [1.3.4](https://github.com/hyldmo/shopify-codegen/compare/v1.3.3...v1.3.4) (2026-01-06)
 
 
