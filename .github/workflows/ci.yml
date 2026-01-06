@@ -1,0 +1,54 @@
+name: CI
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
+
+      - run: yarn --immutable
+      - run: yarn biome ci
+
+      - name: Build
+        run: yarn build
+
+  release:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
+
+      - run: yarn --immutable
+
+      - name: Build
+        run: yarn build
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn semantic-release

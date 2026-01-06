@@ -1,2 +1,2 @@
-export { generateTypes } from './codegens/liquid'
-export type { GenerateOptions } from './codegens/liquid'
+export { generateTypes } from './liquid'
+export type { GenerateOptions } from './liquid'

@@ -3647,8 +3647,6 @@ __metadata:
     semantic-release: "npm:^25.0.2"
     typescript: "npm:^5.7.2"
     zshy: "npm:^0.7.0"
-  bin:
-    shopify-codegen: ./bin/shopify-codegen.js
   languageName: unknown
   linkType: soft
 
