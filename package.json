@@ -18,6 +18,10 @@
 		"exports": "./src/index.ts",
 		"bin": "./src/cli.ts"
 	},
+	"dependencies": {
+		"meow": "^14.0.0",
+		"picocolors": "^1.1.1"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.11",
 		"@semantic-release/changelog": "^6.0.3",

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { resolve } from 'node:path'
+import meow from 'meow'
+import pc from 'picocolors'
 import { generateTypes } from './liquid'
 
 type CodegenFunction = (options: { sectionsDir: string }) => Promise<string>
@@ -8,30 +10,55 @@ const codegens: Record<string, CodegenFunction> = {
 	liquid: generateTypes
 }
 
-const args = process.argv.slice(2)
-const codegenName = args[0]
-const sectionsDir = args[1] ? resolve(process.cwd(), args[1]) : resolve(process.cwd(), 'sections')
+const cli = meow(
+	`
+	Usage
+	  $ shopify-codegen <codegen-name> [options]
+
+	Options
+	  --dir, -d    Sections directory  [default: sections]
+
+	Examples
+	  $ shopify-codegen liquid
+	  $ shopify-codegen liquid --dir ./custom-sections
+	  $ shopify-codegen liquid -d ./sections
+
+	Available codegens
+	  ${Object.keys(codegens).join(', ')}
+`,
+	{
+		importMeta: import.meta,
+		flags: {
+			dir: {
+				type: 'string',
+				alias: 'd',
+				default: 'sections'
+			}
+		}
+	}
+)
+
+const [codegenName] = cli.input
 
 if (!codegenName) {
-	console.error('Error: Codegen name is required')
-	console.error('Usage: shopify-codegen <codegen-name> [sections-dir]')
-	console.error('Available codegens:', Object.keys(codegens).join(', '))
-	process.exit(1)
-}
+	cli.showHelp(1)
+} else {
+	const codegen = codegens[codegenName]
 
-const codegen = codegens[codegenName]
-
-if (!codegen) {
-	console.error(`Error: Unknown codegen "${codegenName}"`)
-	console.error('Available codegens:', Object.keys(codegens).join(', '))
-	process.exit(1)
-}
-
-codegen({ sectionsDir })
-	.then(output => {
-		console.log(output)
-	})
-	.catch(error => {
-		console.error('Error generating types:', error)
+	if (!codegen) {
+		console.error(pc.red(`Error: Unknown codegen "${codegenName}"`))
+		console.error(`\nAvailable codegens: ${Object.keys(codegens).join(', ')}`)
 		process.exit(1)
-	})
+	} else {
+		const sectionsDir = resolve(process.cwd(), cli.flags.dir ?? 'sections')
+
+		codegen({ sectionsDir })
+			.then((output: string) => {
+				console.log(output)
+			})
+			.catch((error: unknown) => {
+				console.error(pc.red('Error generating types:'), error)
+				process.exit(1)
+			})
+	}
+}
