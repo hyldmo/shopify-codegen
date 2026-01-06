@@ -29,10 +29,11 @@ export function generateSettingsType(settings: ShopifyBlock['settings'] | undefi
 		const propName = setting.id
 		const propType = getTypeScriptType(setting)
 		const hasDefault = 'default' in setting && setting.default !== undefined
-		const isOptional = !hasDefault
+		const alwaysSet = setting.type === 'richtext' || setting.type === 'checkbox'
+		const isRequired = hasDefault || alwaysSet
 
 		if (propType) {
-			props.push(`${indent}${propName}${isOptional ? '?' : ''}: ${propType}`)
+			props.push(`${indent}${propName}${isRequired ? '' : '?'}: ${propType}`)
 		}
 	}
 

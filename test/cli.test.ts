@@ -241,4 +241,13 @@ test('CLI generates settings with default values as required (not partial)', asy
 	// Settings without default values should be optional
 	assert(result.stdout.includes('heading_color?: string'), 'heading_color without default should be optional')
 	assert(result.stdout.includes('background_color?: string'), 'background_color without default should be optional')
+
+	// richtext and checkbox are always set even without defaults, so they should be required
+	assert(
+		!result.stdout.includes('show_spacing?: boolean'),
+		'checkbox without default should be required (always set)'
+	)
+	assert(result.stdout.includes('show_spacing: boolean'), 'checkbox should exist as required')
+	assert(!result.stdout.includes('show_title?: boolean'), 'checkbox without default should be required (always set)')
+	assert(result.stdout.includes('show_title: boolean'), 'checkbox should exist as required')
 })
