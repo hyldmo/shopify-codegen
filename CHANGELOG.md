@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/hyldmo/shopify-codegen/compare/v1.3.1...v1.3.2) (2026-01-06)
+
+
+### Bug Fixes
+
+* ensure proper dedupe ([d3334e2](https://github.com/hyldmo/shopify-codegen/commit/d3334e2ea9c0048c7a65458f7651056f53bdf78e))
+
 ## [1.3.1](https://github.com/hyldmo/shopify-codegen/compare/v1.3.0...v1.3.1) (2026-01-06)
 
 
