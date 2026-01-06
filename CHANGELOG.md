@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/hyldmo/shopify-codegen/compare/v1.1.0...v1.1.1) (2026-01-06)
+
+
+### Bug Fixes
+
+* improvements ([817873a](https://github.com/hyldmo/shopify-codegen/commit/817873a753108e47969f4a784d4101fa7e3c1934))
+
 # [1.1.0](https://github.com/hyldmo/shopify-codegen/compare/v1.0.1...v1.1.0) (2026-01-06)
 
 
