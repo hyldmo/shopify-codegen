@@ -27,9 +27,7 @@ jobs:
 
       - run: yarn --immutable
       - run: yarn biome ci
-
-      - name: Build
-        run: yarn build
+      - run: yarn build --dry-run
 
   release:
     needs: build-and-test
@@ -44,11 +42,7 @@ jobs:
           cache-dependency-path: "yarn.lock"
 
       - run: yarn --immutable
-
-      - name: Build
-        run: yarn build
-
-      - name: Release
+      - run: yarn build
+      - run: yarn semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn semantic-release
