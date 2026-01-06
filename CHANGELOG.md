@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/hyldmo/shopify-codegen/compare/v1.0.0...v1.0.1) (2026-01-06)
+
+
+### Bug Fixes
+
+* improved cli dx ([faab3ad](https://github.com/hyldmo/shopify-codegen/commit/faab3ad6504da5f1a5fccf84c8476c2aa640fd22))
+* removed old files ([c89d816](https://github.com/hyldmo/shopify-codegen/commit/c89d816aee8082929ef87d924626b2171ebb0944))
+
 # 1.0.0 (2026-01-06)
 
 
