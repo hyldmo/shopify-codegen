@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/hyldmo/shopify-codegen/compare/v1.1.1...v1.1.2) (2026-01-06)
+
+
+### Bug Fixes
+
+* switch flag ([abd9085](https://github.com/hyldmo/shopify-codegen/commit/abd908502bb2175cdea1f4798c38420ea2efd723))
+
 ## [1.1.1](https://github.com/hyldmo/shopify-codegen/compare/v1.1.0...v1.1.1) (2026-01-06)
 
 
